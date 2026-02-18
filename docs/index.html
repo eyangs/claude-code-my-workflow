@@ -1,219 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Claude Code Setup</title>
+  <title>Claude Code 工作流 - 学术幻灯片开发</title>
+  <meta name="description" content="基于 Claude Code 的学术幻灯片自动化工作流：从 Beamer LaTeX 到 Quarto RevealJS">
   <style>
     body {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 1.3rem;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2.5em 1.5em;
-      color: #222;
-      line-height: 1.8;
-      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      max-width: 900px;
+      margin: 3em auto;
+      padding: 0 1.5em;
+      line-height: 1.6;
+      color: #333;
     }
-
     h1 {
-      font-size: 1.9em;
-      font-weight: normal;
-      color: #012169;
-      margin-bottom: 0.1em;
-      line-height: 1.3;
+      color: #2c3e50;
+      border-bottom: 3px solid #3498db;
+      padding-bottom: 0.5em;
+      margin-bottom: 1em;
     }
-
     h2 {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #012169;
-      margin-top: 2.5em;
-      margin-bottom: 0.6em;
-      padding-bottom: 0.3em;
-      border-bottom: 1px solid #ddd;
+      color: #34495e;
+      margin-top: 1.5em;
     }
-
-    p { margin: 0.8em 0; }
-
-    a { color: #012169; }
-    a:hover { color: #B9975B; }
-
-    .wip {
-      background: #fffbf0;
-      border: 1px solid #e8dcc8;
-      padding: 0.9em 1.2em;
-      margin-bottom: 2em;
-      font-size: 0.93em;
-      color: #6b5a30;
-      line-height: 1.7;
-    }
-
-    .byline {
-      color: #888;
-      font-size: 0.9em;
+    .subtitle {
+      color: #7f8c8d;
+      font-size: 1.1em;
       margin-bottom: 2em;
     }
-
-    .guide-btn {
-      display: inline-block;
-      background: #012169;
-      color: #fff;
-      padding: 0.6em 1.4em;
-      text-decoration: none;
-      font-family: -apple-system, system-ui, sans-serif;
-      font-size: 0.92em;
-      margin-top: 0.5em;
+    .card {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 1.5em;
+      margin: 1em 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
-    .guide-btn:hover { background: #B9975B; color: #fff; }
-
-    .overview-list {
-      list-style: none;
+    .card h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+    ul {
+      list-style-type: none;
       padding: 0;
     }
-    .overview-list li {
-      padding: 0.5em 0;
-      border-bottom: 1px solid #f0f0f0;
+    li {
+      margin: 0.8em 0;
     }
-    .overview-list li:last-child { border-bottom: none; }
-    .overview-list strong {
-      font-family: -apple-system, system-ui, sans-serif;
-      font-size: 0.88em;
-      color: #012169;
+    a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
     }
-    .overview-list .desc {
-      color: #666;
+    a:hover {
+      color: #2980b9;
+      text-decoration: underline;
+    }
+    .date {
+      color: #95a5a6;
       font-size: 0.9em;
+      margin-top: 2em;
     }
-
-    code {
-      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+    .badge {
+      display: inline-block;
+      padding: 0.25em 0.5em;
       font-size: 0.85em;
-      background: #f5f5f5;
-      padding: 0.15em 0.4em;
+      font-weight: 600;
+      border-radius: 4px;
+      margin-left: 0.5em;
     }
-
-    pre {
-      background: #f8f8f8;
-      border: 1px solid #e5e5e5;
-      padding: 1.2em 1.4em;
-      overflow-x: auto;
-      font-size: 0.85em;
-      line-height: 1.7;
-      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+    .badge-success {
+      background-color: #d4edda;
+      color: #155724;
     }
-
+    .badge-info {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
     .footer {
       margin-top: 3em;
       padding-top: 1.5em;
-      border-top: 1px solid #ddd;
-      font-size: 0.85em;
-      color: #999;
+      border-top: 1px solid #e9ecef;
+      color: #6c757d;
+      font-size: 0.9em;
     }
-
-    /* ── Responsive: tablets ── */
-    @media (max-width: 768px) {
-      body {
-        font-size: 1.1rem;
-        padding: 1.5em 1em;
-      }
-
-      h1 { font-size: 1.6em; }
-      h2 { font-size: 1.1em; }
-
-      pre {
-        font-size: 0.78em;
-        padding: 0.9em 1em;
-      }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      margin: 0.5em 0;
     }
-
-    /* ── Responsive: phones ── */
-    @media (max-width: 480px) {
-      body {
-        font-size: 1rem;
-        padding: 1.2em 0.8em;
-        line-height: 1.6;
-      }
-
-      h1 { font-size: 1.4em; }
-
-      .guide-btn {
-        display: block;
-        text-align: center;
-        padding: 0.7em 1em;
-      }
-
-      pre {
-        font-size: 0.72em;
-        padding: 0.8em;
-        word-break: break-all;
-        white-space: pre-wrap;
-      }
-
-      .overview-list li {
-        padding: 0.6em 0;
-      }
-
-      .overview-list .desc {
-        font-size: 0.85em;
-      }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #28a745;
     }
   </style>
 </head>
 <body>
+  <h1>Claude Code 工作流</h1>
+  <p class="subtitle">学术幻灯片自动化开发平台 | Beamer LaTeX → Quarto RevealJS</p>
 
-  <h1>My Claude Code Setup</h1>
-  <div class="byline">Pedro H. C. Sant'Anna &middot; Emory University</div>
-
-  <div class="wip">
-    <strong>Work in progress.</strong> This summarizes how I use Claude Code for academic work &mdash; lecture slides, R scripts, Beamer-to-Quarto pipelines. I keep learning and updating these files. Sharing what I've figured out so far with friends and colleagues.
+  <div class="card">
+    <h3>📚 幻灯片库</h3>
+    <ul>
+      <li>
+        <a href="Demo_Simple.html">因果推断基础入门 (Demo_Simple)</a>
+        <span class="badge badge-success">已完成</span>
+      </li>
+      <li>
+        <a href="workflow-guide.html">完整工作流指南</a>
+        <span class="badge badge-info">参考文档</span>
+      </li>
+    </ul>
   </div>
 
-  <p>A starter kit for academics using <a href="https://code.claude.com/docs/en/overview">Claude Code</a> with LaTeX/Beamer, R, and Quarto. You describe what you want; Claude plans the approach, runs specialized agents, fixes issues, verifies quality, and presents results &mdash; like a contractor who handles the entire job. Extracted from a PhD course I developed (Econ 730 at Emory, 6 lectures, 800+ slides).</p>
+  <div class="card">
+    <h3>🔧 技术栈</h3>
+    <ul>
+      <li><strong>Beamer LaTeX:</strong> 高质量学术幻灯片源码</li>
+      <li><strong>Quarto:</strong> 现代网页幻灯片生成</li>
+      <li><strong>RevealJS:</strong> 响应式演示框架</li>
+      <li><strong>Claude Code:</strong> AI 驱动的自动化工作流</li>
+    </ul>
+  </div>
 
-  <p>
-    <a class="guide-btn" href="workflow-guide.html">Read the full guide</a>
-  </p>
+  <div class="card">
+    <h3>✨ 核心特性</h3>
+    <ul>
+      <li><strong>10+ Agents:</strong> 自动化审查、翻译、质量检查</li>
+      <li><strong>19+ Skills:</strong> 覆盖编译、部署、验证全流程</li>
+      <li><strong>质量门禁:</strong> 确保每一步都达到学术标准</li>
+      <li><strong>对抗性 QA:</strong> 双人验证模式提升质量</li>
+    </ul>
+  </div>
 
-  <h2>What's in the template</h2>
+  <div class="card">
+    <h3>📊 项目状态</h3>
+    <div class="status">
+      <span class="status-dot"></span>
+      <strong>部署状态:</strong> ✅ 已部署到 GitHub Pages
+    </div>
+    <div class="status">
+      <span class="status-dot"></span>
+      <strong>QA 流程:</strong> ✅ 已验证
+    </div>
+    <div class="status">
+      <span class="status-dot"></span>
+      <strong>自动化:</strong> ✅ 脚本已就绪
+    </div>
+  </div>
 
-  <ul class="overview-list">
-    <li><strong>Contractor mode orchestrator</strong> <span class="desc">&mdash; you describe the task; Claude autonomously plans, implements, reviews with agents, fixes issues, and re-verifies until quality gates pass</span></li>
-    <li><strong>Beamer &rarr; Quarto pipeline</strong> <span class="desc">&mdash; 11-phase translation with TikZ-to-SVG and ggplot-to-plotly conversion</span></li>
-    <li><strong>10 specialized agents</strong> <span class="desc">&mdash; proofreader, slide auditor, pedagogy reviewer, R reviewer, TikZ critic, domain reviewer, adversarial QA pair, translator, verifier</span></li>
-    <li><strong>Adversarial critic-fixer loop</strong> <span class="desc">&mdash; two agents that check each other's work across up to 5 rounds &mdash; the critic can't fix, the fixer can't approve</span></li>
-    <li><strong>Quality scoring with mandatory verification</strong> <span class="desc">&mdash; every file scored 0&ndash;100; nothing ships below 80; the orchestrator verifies every output before reporting done</span></li>
-    <li><strong>19 slash commands + 17 context-aware rules</strong> <span class="desc">&mdash; <code>/compile-latex</code>, <code>/proofread</code>, <code>/deploy</code>, <code>/commit</code>, <code>/qa-quarto</code>, <code>/lit-review</code>, <code>/review-paper</code>, <code>/data-analysis</code>, and more &mdash; plus quality gates, notation consistency, and R conventions</span></li>
-    <li><strong>Research workflow skills</strong> <span class="desc">&mdash; <code>/lit-review</code> for literature synthesis, <code>/research-ideation</code> for hypothesis generation, <code>/interview-me</code> to formalize ideas, <code>/review-paper</code> for manuscript review, <code>/data-analysis</code> for end-to-end R analysis</span></li>
-    <li><strong>Smart hooks</strong> <span class="desc">&mdash; macOS desktop notifications, file protection for bibliography and settings, pre-compaction context snapshots to session logs</span></li>
-    <li><strong>Plan-first workflow with continuous learning</strong> <span class="desc">&mdash; non-trivial tasks start in plan mode; <code>[LEARN:tag]</code> corrections persist in MEMORY.md across sessions; plans survive context compression</span></li>
-    <li><strong>Research exploration workflow</strong> <span class="desc">&mdash; structured <code>explorations/</code> sandbox with fast-track prototyping (60/100 threshold), simplified orchestrator for R/research, and merge-only quality reporting</span></li>
-    <li><strong>Automated session log enforcement</strong> <span class="desc">&mdash; a lightweight Stop hook reminds Claude to keep session logs current; Beamer-Quarto sync enforced via auto-loaded rules</span></li>
-  </ul>
-
-  <h2>Getting started</h2>
-
-<pre># Fork this repo on GitHub, then:
-git clone https://github.com/YOUR_USERNAME/claude-code-my-workflow.git my-project
-cd my-project</pre>
-
-  <p>Then start Claude Code and paste the <a href="workflow-guide.html#sec-first-session">starter prompt</a> from the guide. Describe your project in 2&ndash;3 sentences and Claude will read all the configuration files, fill in the placeholders, and adapt the workflow to your use case.</p>
-
-  <p>The <a href="workflow-guide.html">full guide</a> walks through everything: setup, agents, quality gates, workflow patterns, and customization.</p>
-
-  <p>
-    <a class="guide-btn" href="workflow-guide.html">Read the full guide</a>
-    &nbsp;&nbsp;
-    <a class="guide-btn" href="workflow-guide.html#sec-first-session" style="background: #B9975B;">Copy the starter prompt</a>
-  </p>
-
-  <h2>Source</h2>
-
-  <p>Everything is on GitHub: <a href="https://github.com/pedrohcgs/claude-code-my-workflow">pedrohcgs/claude-code-my-workflow</a></p>
+  <div class="card">
+    <h3>🚀 快速开始</h3>
+    <ul>
+      <li>访问 <a href="workflow-guide.html">完整工作流指南</a> 了解详细步骤</li>
+      <li>查看 <a href="https://github.com/pedrohcgs/claude-code-my-workflow">GitHub 仓库</a> 获取源码</li>
+      <li>阅读 <a href="https://github.com/pedrohcgs/claude-code-my-workflow/blob/main/REPRODUCTION_REPORT.md">复现报告</a> 了解部署过程</li>
+    </ul>
+  </div>
 
   <div class="footer">
-    MIT License. Use freely for teaching, research, or any academic purpose.
+    <p><strong>维护者:</strong> pedrohcgs</p>
+    <p><strong>最后更新:</strong> 2026年2月18日</p>
+    <p><strong>GitHub:</strong> <a href="https://github.com/pedrohcgs/claude-code-my-workflow">claude-code-my-workflow</a></p>
   </div>
-
 </body>
 </html>

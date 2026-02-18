@@ -1,0 +1,36 @@
+% ==============================================================================
+% Beamer Header - Minimal Template
+% ==============================================================================
+% 包含常用的 Beamer 主题设置和宏包
+% ==============================================================================
+
+% --- 语言与字体 ---
+% \usepackage{ctex}  % 中文支持（需要额外安装）
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% --- 数学宏包 ---
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{bm}  % 粗体数学符号
+
+% --- 图形与绘图 ---
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, shapes}
+\usepackage{booktabs}  % 表格线
+
+% --- 主题设置 ---
+\usetheme{Madrid}
+\usecolortheme{beaver}
+
+% --- 自定义环境 ---
+\newenvironment{keybox}{
+  \setbeamercolor{block title}{bg=orange!20,fg=black}
+  \begin{block}}
+  {\end{block}}
+
+\newenvironment{definitionbox}[1]{
+  \begin{block}{#1}}
+  {\end{block}}

@@ -1,0 +1,120 @@
+% ==============================================================================
+% Demo Lecture: Causal Inference Basics
+% ==============================================================================
+% 这是一个最小可运行的 Beamer 示例，用于演示完整工作流
+% ==============================================================================
+
+\documentclass[aspectratio=169, 12pt]{beamer}
+
+% --- 引入头部文件 ---
+\input{../Preambles/header.tex}
+
+% --- 元数据 ---
+\title{Causal Inference Basics}
+\subtitle{因果推断基础入门}
+\author{Demo Author}
+\institute{Demo Institution}
+\date{\today}
+
+% ==============================================================================
+% 文档开始
+% ==============================================================================
+\begin{document}
+
+% --- 标题页 ---
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% --- 大纲 ---
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% ==============================================================================
+% Section 1: Introduction
+% ==============================================================================
+\section{Introduction}
+
+\begin{frame}{What is Causal Inference?}
+  \begin{definitionbox}{Definition}
+    Causal inference is the process of drawing conclusions about causal relationships based on observed data \cite{Angrist2009_mostly_harmless}.
+  \end{definitionbox}
+
+  \vspace{0.5cm}
+
+  \begin{keybox}{Key Question}
+    What would have happened to Y if we had changed X by one unit, while holding everything else constant?
+  \end{keybox}
+\end{frame}
+
+\begin{frame}{Why Causal Inference Matters}
+  \begin{itemize}
+    \item \textbf{Policy Evaluation}: Understanding the effect of interventions
+    \item \textbf{Scientific Discovery}: Identifying causal mechanisms
+    \item \textbf{Decision Making}: Making informed choices under uncertainty
+  \end{itemize}
+
+  \vspace{0.5cm}
+
+  \textbf{Example:} Does taking a drug actually cure the disease, or is it just correlation?
+\end{frame}
+
+% ==============================================================================
+% Section 2: Core Concepts
+% ==============================================================================
+\section{Core Concepts}
+
+\begin{frame}{Potential Outcomes Framework}
+  Let $Y_{1i}$ and $Y_{0i}$ denote the potential outcomes for unit $i$:
+
+  \begin{align*}
+    Y_{1i} &= \text{Outcome if treated} \\
+    Y_{0i} &= \text{Outcome if not treated}
+  \end{align*}
+
+  The causal effect for unit $i$ is:
+  \begin{equation}
+    \tau_i = Y_{1i} - Y_{0i}
+  \end{equation}
+
+  \vspace{0.3cm}
+  \textit{Problem: We can only observe one of these for each unit!}
+\end{frame}
+
+\begin{frame}{Average Treatment Effect (ATE)}
+  The average causal effect across the population:
+  \begin{equation}
+    \text{ATE} = \mathbb{E}[Y_{1i} - Y_{0i}]
+  \end{equation}
+
+  \vspace{0.5cm}
+
+  \begin{keybox}{Fundamental Problem of Causal Inference}
+    We cannot observe $Y_{1i}$ and $Y_{0i}$ simultaneously for the same unit $i$.
+  \end{keybox}
+\end{frame}
+
+% ==============================================================================
+% Section 3: References
+% ==============================================================================
+\section{References}
+
+\begin{frame}[allowframebreaks]{References}
+  \bibliographystyle{plain}
+  \bibliography{../Bibliography_base}
+\end{frame}
+
+% --- 结束页 ---
+\begin{frame}
+  \centering
+  \Huge Thank You!
+
+  \vspace{1cm}
+  \Large Questions?
+\end{frame}
+
+\end{document}
+% ==============================================================================
+% 文档结束
+% ==============================================================================

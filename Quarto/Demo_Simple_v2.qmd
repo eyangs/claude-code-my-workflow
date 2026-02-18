@@ -1,0 +1,95 @@
+---
+title: "Causal Inference Basics"
+subtitle: "因果推断基础入门"
+author: "Demo Author"
+institute: "Demo Institution"
+date: today
+format:
+  revealjs:
+    theme: simple
+    highlight-style: github
+    logo: images/logo.png
+    footer: "Demo Lecture"
+    slide-number: true
+    progress: true
+    html-math-method: mathjax
+    # Alternative: use katex for better fidelity
+    # html-math-method: katex
+    preserve-utf8: true
+bibliography: ../Bibliography_base.bib
+---
+
+# Introduction
+
+## What is Causal Inference?
+
+::: definition
+**Definition:** Causal inference is process of drawing conclusions about causal relationships based on observed data [@Angrist2009_mostly_harmless].
+:::
+
+::: keybox
+**Key Question:** What would have happened to Y if we had changed X by one unit, while holding everything else constant?
+:::
+
+## Why Causal Inference Matters
+
+- **Policy Evaluation:** Understanding effect of interventions
+- **Scientific Discovery:** Identifying causal mechanisms
+- **Decision Making:** Making informed choices under uncertainty
+
+**Example:** Does taking a drug actually cure disease, or is it just correlation?
+
+# Core Concepts
+
+## Potential Outcomes Framework
+
+Let $Y_{1i}$ and $Y_{0i}$ denote potential outcomes for unit $i$:
+
+$$
+\begin{align*}
+Y_{1i} &= \text{Outcome if treated} \\
+Y_{0i} &= \text{Outcome if not treated}
+\end{align*}
+$$
+
+The causal effect for unit $i$ is:
+
+$$ \tau_i = Y_{1i} - Y_{0i} $$
+
+*Problem: We can only observe one of these for each unit!*
+
+## Average Treatment Effect (ATE)
+
+The average causal effect across population:
+
+$$ \text{ATE} = \mathbb{E}[Y_{1i} - Y_{0i}] $$
+
+::: keybox
+**Fundamental Problem of Causal Inference:**
+
+We cannot observe $Y_{1i}$ and $Y_{0i}$ simultaneously for same unit $i$.
+:::
+
+# References
+
+## References
+
+::: smaller
+
+@Angrist2009_mostly_harmless
+
+@Imbens2004_nonparametric
+
+:::
+
+# Thank You
+
+## Thank You!
+
+# Questions?
+
+### Questions?
+
+.center[
+**Questions?**
+]
