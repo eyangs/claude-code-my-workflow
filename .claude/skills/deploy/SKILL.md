@@ -1,7 +1,6 @@
 ---
 name: deploy
-description: Render Quarto slides and sync to docs/ for GitHub Pages deployment. Use when deploying lecture slides after making changes.
-disable-model-invocation: true
+description: Render Quarto `.qmd` slides to HTML and sync to `docs/` for GitHub Pages. Use when user says "deploy", "publish the slides", "ship to pages", "push the lecture live", "render and publish", or after Quarto edits that need to go public. NOT for local Quarto render only — use `quarto render` directly for that.
 argument-hint: "[LectureN or 'all']"
 allowed-tools: ["Read", "Bash"]
 ---
@@ -20,6 +19,7 @@ Render Quarto slides and sync all files to `docs/` for GitHub Pages deployment.
    - Check that HTML files exist in `docs/slides/`
    - Check that `_files/` directories were copied (RevealJS assets)
    - Check that `docs/Figures/` was synced from `Figures/`
+   - Check that `docs/files/code/` contains the R scripts (if `scripts/R/` has any)
 
 3. **Verify interactive charts** (if applicable):
    - Grep rendered HTML for interactive widget count
@@ -29,7 +29,8 @@ Render Quarto slides and sync all files to `docs/` for GitHub Pages deployment.
    - Check that all referenced SVG files exist in `docs/Figures/LectureN/`
 
 5. **Open in browser** for visual verification:
-   - `open docs/slides/LectureX_Name.html`
+   - `open docs/slides/LectureX_Name.html`          # macOS
+   - `# xdg-open docs/slides/LectureX_Name.html`    # Linux
    - Confirm slides render, images display, navigation works
 
 6. **Report results** to the user
@@ -39,3 +40,4 @@ Render Quarto slides and sync all files to `docs/` for GitHub Pages deployment.
 - Copies HTML and `_files/` directories to `docs/slides/`
 - Copies Beamer PDFs from `Slides/` to `docs/slides/`
 - Syncs `Figures/` to `docs/Figures/` using rsync
+- Copies every `scripts/R/*.R` into `docs/files/code/` (published beside the slides)

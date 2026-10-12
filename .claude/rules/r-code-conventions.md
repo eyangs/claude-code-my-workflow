@@ -1,13 +1,15 @@
 ---
 paths:
-  - "**/*.R"
   - "Figures/**/*.R"
   - "scripts/**/*.R"
+  - "explorations/**/*.R"
 ---
 
 # R Code Standards
 
 **Standard:** Senior Principal Data Engineer + PhD researcher quality
+
+> **Scope:** These standards apply to **analysis scripts** — data work, simulations, figure generation (a top-level `set.seed()`, `library()` at the top, relative output paths). For R **package source** (`R/`, `tests/`, `DESCRIPTION`, `NAMESPACE`, `man/`), see [`r-package-conventions.md`](r-package-conventions.md), which has different rules (roxygen-generated `NAMESPACE`, no `library()` in `R/`, CRAN policy). The numerical discipline in §8 applies to both.
 
 ---
 
@@ -36,7 +38,7 @@ paths:
 ```r
 # --- Your institutional palette ---
 primary_blue  <- "#012169"
-primary_gold  <- "#f2a900"
+primary_gold  <- "#b9975b"
 accent_gray   <- "#525252"
 positive_green <- "#15803d"
 negative_red  <- "#b91c1c"
@@ -89,17 +91,36 @@ saveRDS(result, file.path(out_dir, "descriptive_name.rds"))
 3. The line is in a numerically intensive section (simulation loops, estimation routines, inference calculations)
 
 **Quality Gate Impact:**
-- Long lines in non-mathematical code: minor penalty (-1 to -2 per line)
+- Long lines in non-mathematical code: a reviewer-applied Style violation (-1; see the R Scripts table in [`quality-gates.md`](quality-gates.md), generated from `scripts/quality_score.py`, which does not measure line length itself)
 - Long lines in documented mathematical sections: no penalty
 
-## 8. Code Quality Checklist
+## 8. Numerical Discipline
+
+See [`r-reviewer.md`](../agents/r-reviewer.md) Category 11 ("Numerical Discipline") for the full checklist. Headline rules:
+
+- **No float equality.** Never use `==` on doubles. Use `all.equal()` or `abs(a - b) < tol`.
+- **CDF clamping** to an OPEN interval. Exact 0 or 1 passed to `qnorm()` / `pbinom()` etc. produces `±Inf`. Project-wide epsilon:
+
+  ```r
+  eps <- 1e-12
+  p <- pmin(1 - eps, pmax(eps, p))   # now safe for qnorm(p)
+  ```
+
+- **Integer literals for counts.** `nrow <- 1000L` (not `1000`), `for (i in 1L:nL)` — avoids silent promotion.
+- **Pre-allocate vectors** before loops (`numeric(n)`, `vector("list", n)`), never grow with `c()`.
+- **Deterministic bootstrap seeding.** Set seed before the bootstrap, and if the bootstrap is nested, set per-replicate seeds as `seed_base + b`.
+- **Explicit `na.rm = TRUE/FALSE`.** Never rely on defaults for `mean()`, `sd()`, `sum()` on data with potential NAs.
+- **No `T` / `F`.** They're variables, not constants — write `TRUE` / `FALSE`.
+
+## 9. Code Quality Checklist
 
 ```
 [ ] Packages at top via library()
-[ ] set.seed() once at top
+[ ] set.seed() once at top (YYYYMMDD)
 [ ] All paths relative
 [ ] Functions documented (Roxygen)
 [ ] Figures: transparent bg, explicit dimensions
 [ ] RDS: every computed object saved
 [ ] Comments explain WHY not WHAT
+[ ] Numerical discipline: no float ==, CDF clamping with eps, pre-allocated vectors
 ```
